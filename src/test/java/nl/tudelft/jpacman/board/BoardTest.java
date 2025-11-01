@@ -24,5 +24,15 @@ public class BoardTest {
         assertThat(square).isNotNull();
         assertThat(square).isEqualTo(board[0][0]);
     }
-    
+    /**
+     * Test case 2: Construct a 1x1 board with a null square.
+     */
+    @Test
+    void testBoardWithNullSquare() {
+        Square[][] grid = new Square[1][1];
+        grid[0][0] = null;
+        Board board = new Board(grid);
+        Square square = board.squareAt(0, 0);
+        assertThat(square).isNull();
+    }
 }
