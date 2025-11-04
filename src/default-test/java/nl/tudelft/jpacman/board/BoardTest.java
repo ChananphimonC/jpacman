@@ -8,9 +8,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 /**
- * Test various aspects of board.
+ * Tests various aspects of the Board class, such as
+ * width, height, and correct mapping of coordinates to squares.
  *
- * @author Jeroen Roosen 
+ * @author Jeroen Roosen
  */
 class BoardTest {
 
@@ -40,14 +41,15 @@ class BoardTest {
     }
 
     /**
-     * Verify that squares at key positions are properly set.
-     * @param x Horizontal coordinate of relevant cell.
-     * @param y Vertical coordinate of relevant cell.
+     * Verifies that squares at various positions are correctly assigned.
+     *
+     * @param x The x-coordinate.
+     * @param y The y-coordinate.
      */
     @ParameterizedTest
     @CsvSource({
-            "0, 0",
-            "1, 2",
+        "0, 0",
+        "1, 2",
         "0, 1"
     })
     void testSquareAt(int x, int y) {
