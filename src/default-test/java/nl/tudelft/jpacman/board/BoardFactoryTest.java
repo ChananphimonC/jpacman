@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
+
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,10 +16,16 @@ import org.junit.jupiter.api.Test;
  */
 class BoardFactoryTest {
 
+    /** The factory under test. */
     private BoardFactory factory;
+
+    /** Square on the board to test. */
     private Square s1;
+
+    /** Square on the board to test. */
     private Square s2;
 
+    /** Sets up a new board factory and test squares before each test. */
     @BeforeEach
     void setUp() {
         PacManSprites sprites = mock(PacManSprites.class);
@@ -27,6 +34,7 @@ class BoardFactoryTest {
         s2 = new BasicSquare();
     }
 
+    /** Verifies that a single cell is connected to itself on all sides. */
     @Test
     void worldIsRound() {
         factory.createBoard(new Square[][]{{s1}});
@@ -35,38 +43,35 @@ class BoardFactoryTest {
             .containsOnly(s1);
     }
 
+    /** Verifies a chain of cells is connected to the east. */
     @Test
     void connectedEast() {
-        factory.createBoard(new Square[][]{
-            {s1},
-            {s2}
-        });
+        factory.createBoard(new Square[][]{{s1}, {s2}});
         assertThat(s1.getSquareAt(Direction.EAST)).isEqualTo(s2);
-        assertThat(s2.getSquareAt(Direction.WEST)).isEqualTo(s1);
+        assertThat(s2.getSquareAt(Direction.EAST)).isEqualTo(s1);
     }
 
+    /** Verifies a chain of cells is connected to the west. */
     @Test
     void connectedWest() {
-        factory.createBoard(new Square[][]{
-            {s1},
-            {s2}
-        });
+        factory.createBoard(new Square[][]{{s1}, {s2}});
+        assertThat(s1.getSquareAt(Direction.WEST)).isEqualTo(s2);
         assertThat(s2.getSquareAt(Direction.WEST)).isEqualTo(s1);
-        assertThat(s1.getSquareAt(Direction.EAST)).isEqualTo(s2);
     }
 
+    /** Verifies a chain of cells is connected to the north. */
     @Test
     void connectedNorth() {
         factory.createBoard(new Square[][]{{s1, s2}});
+        assertThat(s1.getSquareAt(Direction.NORTH)).isEqualTo(s2);
         assertThat(s2.getSquareAt(Direction.NORTH)).isEqualTo(s1);
-        assertThat(s1.getSquareAt(Direction.SOUTH)).isEqualTo(s2);
     }
 
+    /** Verifies a chain of cells is connected to the south. */
     @Test
     void connectedSouth() {
         factory.createBoard(new Square[][]{{s1, s2}});
         assertThat(s1.getSquareAt(Direction.SOUTH)).isEqualTo(s2);
-        assertThat(s2.getSquareAt(Direction.NORTH)).isEqualTo(s1);
+        assertThat(s2.getSquareAt(Direction.SOUTH)).isEqualTo(s1);
     }
-
 }
