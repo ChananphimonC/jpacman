@@ -1,37 +1,61 @@
 package nl.tudelft.jpacman.board;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
 /**
- * @author Chananphimon C.
+ * Test suite for the Board class.
  */
 public class BoardTest {
+
+    /** The board under test. */
+    private Board board;
+
+    /** The squares used for the board. */
+    private Square[][] squares;
+
     /**
-     * Test case 1: Construct a valid 1x1 board with a correct BasicSquare.
-     * This test should pass as the board is valid.
+     * Test a board can be constructed from a valid 2D array of squares.
      */
     @Test
-    void testValidBoard() {
-        Square[][] board = new Square[1][1];
-        board[0][0] = new BasicSquare();
-        Board actualBoard = new Board(board);
-        // Verify the board is created successfully
-        assertThat(actualBoard).isNotNull();
-        // Test the squareAt method
-        Square square = actualBoard.squareAt(0, 0);
-        assertThat(square).isNotNull();
-        assertThat(square).isEqualTo(board[0][0]);
+    public void constructBoardTest() {
+        squares = new Square[1][1];
+        squares[0][0] = new BasicSquare();
+        board = new Board(squares);
+        assertThat(board.invariant()).isTrue();
     }
-//    /**
-//     * Test case 2: Construct a 1x1 board with a null square.
-//     */
-//    @Test
-//    void testBoardWithNullSquare() {
-//        Square[][] grid = new Square[1][1];
-//        grid[0][0] = null;
-//        Board board = new Board(grid);
-//        Square square = board.squareAt(0, 0);
-//        assertThat(square).isNull();
-//    }
+
+    /**
+     * Test that constructing a board with a null-containing square array throws an error.
+     */
+    @Test
+    public void invalidBoardTest() {
+        squares = new Square[1][1];
+        assertThrows(AssertionError.class, () -> new Board(squares));
+    }
+
+    /**
+     * Test that the squareAt method returns the correct square for valid coordinates.
+     */
+    @Test
+    public void squareAtValidTest() {
+        squares = new Square[1][1];
+        squares[0][0] = new BasicSquare();
+        board = new Board(squares);
+        assertThat(board.invariant()).isTrue();
+        assertThat(board.squareAt(0, 0)).isEqualTo(squares[0][0]);
+    }
+
+    /**
+     * Test that the squareAt method throws an error for out-of-bounds coordinates.
+     */
+    @Test
+    public void squareAtOutOfBoundTest() {
+        squares = new Square[1][1];
+        squares[0][0] = new BasicSquare();
+        board = new Board(squares);
+        assertThrows(AssertionError.class, () -> board.squareAt(1, 0));
+    }
 }
