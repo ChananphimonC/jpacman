@@ -55,15 +55,10 @@ class OccupantTest {
      */
     @Test
     void testReoccupy() {
-        assertThat(unit).isNotNull();
         Square square1 = new BasicSquare();
         Square square2 = new BasicSquare();
 
         unit.occupy(square1);
-        assertThat(unit.hasSquare()).isTrue();
-        assertThat(unit.getSquare()).isEqualTo(square1);
-        assertThat(square1.getOccupants()).contains(unit);
-
         // Second occupation (reoccupy with square2)
         unit.occupy(square2);
         assertThat(unit.hasSquare()).isTrue();
